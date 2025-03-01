@@ -36,6 +36,14 @@
 <body>
     <h1>Mon panier</h1>
 
+    <c:if test="${not empty message}">
+        <div class="message">${message}</div>
+    </c:if>
+
+    <c:if test="${not empty erreur}">
+        <div class="erreur">${erreur}</div>
+    </c:if>
+
     <c:choose>
         <c:when test="${empty sessionScope.panier or empty sessionScope.panier.articles}">
             <p>Votre panier est vide.</p>

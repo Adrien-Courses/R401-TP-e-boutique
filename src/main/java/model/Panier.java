@@ -16,15 +16,28 @@ public class Panier implements Serializable {
 	}
 
 	public void ajouterArticle(Article article) {
-
+		// Vérifier si l'article est déjà dans le panier
+		for (Article a : articles) {
+			if (a.equals(article)) {
+				// Incrémenter la quantité au lieu d'ajouter un nouvel article
+				a.setQuantite(a.getQuantite() + 1);
+				return;
+			}
+		}
+		// Si l'article n'est pas dans le panier, l'ajouter
+		articles.add(article);
 	}
 
 	public void retirerArticle(int id) {
-
+		articles.removeIf(article -> article.getId() == id);
 	}
 
 	public int getNombreArticles() {
-		return 0;
+		int nombre = 0;
+		for (Article article : articles) {
+			nombre += article.getQuantite();
+		}
+		return nombre;
 	}
 
 	public double getTotal() {
