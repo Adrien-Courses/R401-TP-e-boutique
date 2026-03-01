@@ -1,15 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.adriencaubel</groupId>
-	<artifactId>R401-TP-panier</artifactId>
+	<artifactId>R401-TP-e-boutique</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
 
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
+		<tomcat-version>11.0.18</tomcat-version>
 	</properties>
 
 	<dependencies>
@@ -30,6 +31,22 @@
 			<version>3.0.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-core</artifactId>
+			<version>${tomcat-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<version>${tomcat-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-logging-juli</artifactId>
+			<version>8.0.36</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -38,31 +55,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.3.2</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.tomee.maven</groupId>
-				<artifactId>tomee-maven-plugin</artifactId>
-				<version>10.0.0</version>
-				<configuration>
-					<tomeeVersion>10.0.0</tomeeVersion>
-					<tomeeClassifier>plus</tomeeClassifier>
-					<inlinedServerXml>
-						<Server port="8005" shutdown="SHUTDOWN">
-							<Listener
-								className="org.apache.tomee.catalina.ServerListener" />
-							<Listener
-								className="org.apache.catalina.startup.VersionLoggerListener" />
-							<Service name="Catalina">
-								<Connector port="8080" protocol="HTTP/1.1" />
-								<Engine name="Catalina" defaultHost="localhost">
-									<Host name="localhost" appBase="webapps"
-										unpackWARs="true" autoDeploy="true">
-									</Host>
-								</Engine>
-							</Service>
-						</Server>
-					</inlinedServerXml>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>

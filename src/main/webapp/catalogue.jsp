@@ -25,7 +25,7 @@
     <h1>Catalogue de produits</h1>
     
     <div>
-        <a href="${pageContext.request.contextPath}/afficherPanier">
+        <a href="${pageContext.request.contextPath}/panier">
             Voir mon panier 
             <c:if test="${not empty sessionScope.panier}">
                 (${sessionScope.panier.nombreArticles} article(s))

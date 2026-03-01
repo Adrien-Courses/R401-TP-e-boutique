@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/java,maven,eclipse,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,maven,eclipse,macos
 
+.idea
+tomcat.8811
+
 ### Eclipse ###
 .metadata
 bin/
