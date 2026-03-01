@@ -43,6 +43,13 @@ public class PanierServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		String action = request.getParameter("action");
+
+		if ("delete".equals(action)) {
+			doDelete(request, response);
+		}
+
 		// Récupérer les paramètres du formulaire
 		String idStr = request.getParameter("id");
 		String nom = request.getParameter("nom");
