@@ -7,6 +7,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.Article;
+import model.Panier;
 
 @WebServlet("/panier")
 public class PanierServlet extends HttpServlet {
@@ -17,6 +20,21 @@ public class PanierServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// Récupérer la session
+		HttpSession session = request.getSession(false); // false pour ne pas créer de session si on tombe dessus en
+		// premier
+
+		if (session != null) {
+			// Récupérer le panier s'il existe
+			Panier panier = (Panier) session.getAttribute("panier");
+			if (panier == null) {
+				panier = new Panier();
+				session.setAttribute("panier", panier);
+			}
+		}
+
+		// Rediriger vers la page du panier
+		request.getRequestDispatcher("panier.jsp").forward(request, response);
 	}
 
 	/**
@@ -25,6 +43,41 @@ public class PanierServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// Récupérer les paramètres du formulaire
+		String idStr = request.getParameter("id");
+		String nom = request.getParameter("nom");
+		String prixStr = request.getParameter("prix");
+
+		// Valider et convertir les données
+		try {
+			int id = Integer.parseInt(idStr);
+			double prix = Double.parseDouble(prixStr);
+
+			// Créer un nouvel article
+			Article article = new Article(id, nom, prix);
+
+			// Récupérer la session
+			HttpSession session = request.getSession();
+
+			// Récupérer le panier existant ou en créer un nouveau
+			Panier panier = (Panier) session.getAttribute("panier");
+			if (panier == null) {
+				panier = new Panier();
+				session.setAttribute("panier", panier);
+			}
+
+			// Ajouter l'article au panier
+			panier.ajouterArticle(article);
+
+			// Ajouter un message de confirmation
+			request.setAttribute("message", "L'article " + nom + " a été ajouté au panier.");
+
+		} catch (NumberFormatException e) {
+			request.setAttribute("erreur", "Données invalides.");
+		}
+
+		// Rediriger vers la page du catalogue ou panier
+		request.getRequestDispatcher("catalogue.jsp").forward(request, response);
 	}
 
 	/**
@@ -33,5 +86,30 @@ public class PanierServlet extends HttpServlet {
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// Récupérer l'ID de l'article à supprimer
+		String idStr = request.getParameter("id");
+
+		try {
+			int id = Integer.parseInt(idStr);
+
+			// Récupérer la session
+			HttpSession session = request.getSession(false);
+
+			if (session != null) {
+				// Récupérer le panier s'il existe
+				Panier panier = (Panier) session.getAttribute("panier");
+				if (panier != null) {
+					// Supprimer l'article
+					panier.retirerArticle(id);
+					request.setAttribute("message", "Article retiré du panier.");
+				}
+			}
+
+		} catch (NumberFormatException e) {
+			request.setAttribute("erreur", "ID d'article invalide.");
+		}
+
+		// Rediriger vers la page du panier
+		request.getRequestDispatcher("panier.jsp").forward(request, response);
 	}
 }
