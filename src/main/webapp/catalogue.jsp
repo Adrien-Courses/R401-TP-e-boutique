@@ -37,7 +37,7 @@
     <div class="produit">
         <h3>Smartphone XYZ</h3>
         <p>Prix: 599.99 euro</p>
-       	<!-- TODO -->
+       	<!-- TODO ${pageContext.request.contextPath} permet d'accéder au contextPath, voir ligne 28 -->
     </div>
     
     <div class="produit">
