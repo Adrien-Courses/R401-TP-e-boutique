@@ -59,7 +59,7 @@
                             <td>${article.quantite}</td>
                             <td><fmt:formatNumber value="${article.sousTotal}" type="currency" currencySymbol="€" /></td>
                             <td>
-                                <form action="${pageContext.request.contextPath}/supprimerArticle" method="post">
+                                <form action="${pageContext.request.contextPath}/panier" method="post">
                                     <input type="hidden" name="id" value="${article.id}">
                                     <input type="submit" value="Supprimer">
                                 </form>
